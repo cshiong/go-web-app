@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+     <link rel="stylesheet" href="/www/css/main.css">
+    <title></title>
+</head>
+<body>
+ <h1>Dynamo Tables</h1>
+ <table id="customers">
+
+ <tr>
+         <th>Shard</th>
+         <th>Id</th>
+         <th>Job</th>
+         <th>Tag</th>
+         <th>Time</th>
+ </tr>
+ {{range .}}
+      <tr>
+          <td>{{.Shard}}</td>
+          <td>{{.Id}}</td>
+          <td>{{.Job}}</td>
+          <td>{{.Tag}}</td>
+          <td>{{.Time}}</td>
+     </tr>
+ </table>
+ {{end}}
+</body>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+ <h1>Dynamo Tables</h1>
+ {{$list :=.}}
+ {{range $element := $list}}
+     <div><a href="http://localhost:8080/dynamo/tables/{{$element}}" title="{{$element}}">{{ $element }}</a></div>
+ {{ end }}
+</body>
+</html>
