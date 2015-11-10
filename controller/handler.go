@@ -93,14 +93,13 @@ func (h *MyHandler) LoadStaticPage(w http.ResponseWriter, r *http.Request){
 func (h *MyHandler) LoadHomePage(w http.ResponseWriter, r *http.Request){
     log.Println("in LoadHomePage()")
 	p :="VA Administor Tool"
-	h.renderTemplate(w,"index",p)
+	h.renderTemplate(w,Page{"homepage",p},"index")
 
 }
 
-func (h *MyHandler)renderTemplate(w http.ResponseWriter, tmpl string, p interface{}) {
+func (h *MyHandler)renderTemplate(w http.ResponseWriter, p Page, tmpls ...string) {
 	log.Println("in renderTemplate()")
-	log.Println(h.templatePath)
-	t, err := template.ParseFiles(filepath.Join(h.templatePath, tmpl + ".tmpl"))
+	t, err := template.ParseFiles(tmpls ...)
 	//need abs filepath
 	if err == nil {
 		t.Execute(w, p)
@@ -123,11 +122,17 @@ func (h *MyHandler) GetTables(w http.ResponseWriter, r *http.Request){
 		log.Printf("error:%s\n",err)
 		return
 	}
-	h.renderTemplate(w,"tables",result.TableNames)
+	h.renderTemplate(w,Page{"Dynamo Tables",result.TableNames},filepath.Join(h.templatePath,"tables.tmpl"))
 }
 
 func (h *MyHandler) GetTablesContents(w http.ResponseWriter, r *http.Request){
 	log.Println("in GetTableContents()")
+
+	path :=r.URL.Path
+    fmt.Printf("table path:%s\n",path)
+	p :=strings.Split(path, "/")
+	table :=p[3]
+	fmt.Printf("table:%s\n",table)
 
 	job1:= CronaasJob {"22",
 		"2643c528-b784-4faa-90a9-3f665132d26c",
@@ -143,8 +148,18 @@ func (h *MyHandler) GetTablesContents(w http.ResponseWriter, r *http.Request){
 	}
 	var jobs []CronaasJob
 	jobs = append(jobs,job1,job2)
+	content := Page{table,jobs}
 	fmt.Printf("jobs:%v\n",jobs)
-	h.renderTemplate(w,"items",jobs)
+
+	/*var layout, itemContent *template.Template{}
+
+	layout = template.Must(template.ParseFiles("itemLayout.tmpl")).Funcs(template.FuncMap{
+		"add": add,
+	})
+	itemContent = template.Must(layout.Clone())
+	itemContent = template.Must(itemContent.ParseFiles("peopleTemplate"))
+	itemContent.Execute(w,content)*/
+	h.renderTemplate(w, content, filepath.Join(h.templatePath,"itemsLayout.tmpl"),filepath.Join(h.templatePath,"itemsContent.tmpl"))
 
 /*
 	region :="us-west-2"

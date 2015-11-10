@@ -1,0 +1,20 @@
+{{define "content"}}
+<table id="customers">
+<tr>
+        <th>Shard</th>
+        <th>Id</th>
+        <th>Job</th>
+        <th>Tag</th>
+        <th>Time</th>
+</tr>
+{{range .}}
+     <tr>
+         <td>{{.Shard}}</td>
+         <td>{{.Id}}</td>
+         <td>{{.Job}}</td>
+         <td>{{.Tag}}</td>
+         <td>{{.Time}}</td>
+   </tr>
+</table>
+{{end}}
+{{end}}
