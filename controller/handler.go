@@ -130,10 +130,10 @@ func (h *MyHandler)renderTemplateWithFunc(w http.ResponseWriter, p Page, tmpls .
 	var funcMap = template.FuncMap{
 		"even": even,
 	}
+    //New() needs to have the same basename as the "top level" template,but not the filePath just the name.
+	t := template.Must(template.New("itemsLayout.tmpl").Funcs(funcMap).ParseFiles(tmpls ...))
 
-	t := template.Must(template.New("").Funcs(funcMap).ParseFiles(tmpls ...))
-
-		t.Execute(w, p)
+	t.Execute(w, p)
 
 
 }

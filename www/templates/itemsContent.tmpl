@@ -8,13 +8,13 @@
         <th>Time</th>
 </tr>
 {{range $index, $element := .}}
-     <tr id="{{if even $index}}tr.alt{{end}}">
+     <tr class="{{if even $index}}{{else}}alt{{end}}">
          <td>{{$element.Shard}}</td>
          <td>{{$element.Id}}</td>
          <td>{{$element.Job}}</td>
          <td>{{$element.Tag}}</td>
          <td>{{$element.Time}}</td>
    </tr>
-</table>
 {{end}}
+</table>
 {{end}}

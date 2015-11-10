@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>{{.Title}}</title>
 </head>
 <body>
- <h1>Dynamo Tables</h1>
+<h1>{{.Title}}</h1>
+ <p>play with data, The title of this page is: {{printf "%s" .Title | len}} letters long.</p>
  {{$list :=.Content}}
  {{range $element := $list}}
-     <div><a href="http://localhost:8080/dynamo/tables/{{$element}}" title="{{$element}}">{{ $element }}</a></div>
+     <div><a href="/dynamo/tables/{{$element}}" title="{{$element}}">{{ $element }}</a></div>
  {{ end }}
 </body>
 </html>
