@@ -44,6 +44,11 @@ func NewMyHandler() *MyHandler{
 	h.staticDir ="www"
 	return &h
 }
+
+func even(num int) bool{
+	return num % 2 == 0
+}
+
 /*
 load static pages using ReadFile
  */
@@ -111,6 +116,28 @@ func (h *MyHandler)renderTemplate(w http.ResponseWriter, p Page, tmpls ...string
 }
 
 
+func (h *MyHandler)renderTemplateWithFunc(w http.ResponseWriter, p Page, tmpls ...string) {
+	log.Println("in renderTemplateWithFunc()")
+	/*t, err := template.ParseFiles(tmpls ...)
+	//need abs filepath
+
+	//can't add the func after the parse, need have the funMap first
+
+	t.Funcs(template.FuncMap{
+		"even": even,
+	})*/
+
+	var funcMap = template.FuncMap{
+		"even": even,
+	}
+
+	t := template.Must(template.New("").Funcs(funcMap).ParseFiles(tmpls ...))
+
+		t.Execute(w, p)
+
+
+}
+
 func (h *MyHandler) GetTables(w http.ResponseWriter, r *http.Request){
 
 	log.Println("in GetTables()")
@@ -154,12 +181,12 @@ func (h *MyHandler) GetTablesContents(w http.ResponseWriter, r *http.Request){
 	/*var layout, itemContent *template.Template{}
 
 	layout = template.Must(template.ParseFiles("itemLayout.tmpl")).Funcs(template.FuncMap{
-		"add": add,
+		"add": even,
 	})
 	itemContent = template.Must(layout.Clone())
 	itemContent = template.Must(itemContent.ParseFiles("peopleTemplate"))
 	itemContent.Execute(w,content)*/
-	h.renderTemplate(w, content, filepath.Join(h.templatePath,"itemsLayout.tmpl"),filepath.Join(h.templatePath,"itemsContent.tmpl"))
+	h.renderTemplateWithFunc(w, content, filepath.Join(h.templatePath,"itemsLayout.tmpl"),filepath.Join(h.templatePath,"itemsContent.tmpl"))
 
 /*
 	region :="us-west-2"

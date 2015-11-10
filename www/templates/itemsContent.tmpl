@@ -7,13 +7,13 @@
         <th>Tag</th>
         <th>Time</th>
 </tr>
-{{range .}}
-     <tr>
-         <td>{{.Shard}}</td>
-         <td>{{.Id}}</td>
-         <td>{{.Job}}</td>
-         <td>{{.Tag}}</td>
-         <td>{{.Time}}</td>
+{{range $index, $element := .}}
+     <tr id="{{if even $index}}tr.alt{{end}}">
+         <td>{{$element.Shard}}</td>
+         <td>{{$element.Id}}</td>
+         <td>{{$element.Job}}</td>
+         <td>{{$element.Tag}}</td>
+         <td>{{$element.Time}}</td>
    </tr>
 </table>
 {{end}}
