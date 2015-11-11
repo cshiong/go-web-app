@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,24 +18,14 @@
     </div>
 
     <ul class="nav nav-tabs">
-        <li class="active"><a href="#">Home</a></li>
-        <li><a href="/dynamo/tables">Dynamo</a></li>
+        <li><a href="#">Home</a></li>
+        <li class="active"><a href="/dynamo/tables">Dynamo</a></li>
         <li><a href="#">Menu 2</a></li>
         <li><a href="#">Menu 3</a></li>
     </ul>
 
-    <div class="row">
-        <div class="col-md-3 col-sm-12">
-            <form action="/dynamo/tables" method="post">
-                <div><input type="submit" value="Dynamo tables"></div>
-            </form>
-        </div>
-        <div class="col-md-3 col-sm-12">
-            <p>This is sample web site to use goLang for both frontend and backend.</p>
-        </div>
-        <div class="col-md-3 col-sm-12">
-            <p>This is sample web site to use goLang for both frontend and backend.</p>
-        </div>
+    <div class="container">
+        {{template "content" .}}
 </div>
 
 </body>

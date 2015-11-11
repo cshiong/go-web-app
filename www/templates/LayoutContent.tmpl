@@ -1,6 +1,6 @@
 {{define "content"}}
-<h2>Dynamo Tables: {{.Title}}</h2>
-<table id="customers">
+<h3>Dynamo Tables: {{.Title}}</h3>
+<table class="table table-bordered table-striped">
 <tr>
         <th>Shard</th>
         <th>Id</th>
@@ -9,7 +9,7 @@
         <th>Time</th>
 </tr>
 {{range $index, $element := .Content}}
-     <tr class="{{if even $index}}{{else}}alt{{end}}">
+     <tr>
          <td>{{$element.Shard}}</td>
          <td>{{$element.Id}}</td>
          <td>{{$element.Job}}</td>

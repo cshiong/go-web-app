@@ -6,7 +6,11 @@
     <title>{{.Title}}</title>
 </head>
 <body>
- <h1>Dynamo Tables: {{.Title}}</h1>
- {{template "content" .Content}}
+<div>
+ {{template "content" .}}
+ </div>
 </body>
+<footer>
+{{template "footer"}}
+</footer>
 </html>

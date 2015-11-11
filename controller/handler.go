@@ -130,8 +130,11 @@ func (h *MyHandler)renderTemplateWithFunc(w http.ResponseWriter, p Page, tmpls .
 	var funcMap = template.FuncMap{
 		"even": even,
 	}
+	path :=strings.Split(tmpls[0],"/")
+	baseName := path[len(path)-1]
+	fmt.Printf("baseName:%s\n",baseName)
     //New() needs to have the same basename as the "top level" template,but not the filePath just the name.
-	t := template.Must(template.New("itemsLayout.tmpl").Funcs(funcMap).ParseFiles(tmpls ...))
+	t := template.Must(template.New(baseName).Funcs(funcMap).ParseFiles(tmpls ...))
 
 	t.Execute(w, p)
 
@@ -178,15 +181,11 @@ func (h *MyHandler) GetTablesContents(w http.ResponseWriter, r *http.Request){
 	content := Page{table,jobs}
 	fmt.Printf("jobs:%v\n",jobs)
 
-	/*var layout, itemContent *template.Template{}
-
-	layout = template.Must(template.ParseFiles("itemLayout.tmpl")).Funcs(template.FuncMap{
-		"add": even,
-	})
-	itemContent = template.Must(layout.Clone())
-	itemContent = template.Must(itemContent.ParseFiles("peopleTemplate"))
-	itemContent.Execute(w,content)*/
-	h.renderTemplateWithFunc(w, content, filepath.Join(h.templatePath,"itemsLayout.tmpl"),filepath.Join(h.templatePath,"itemsContent.tmpl"))
+	/*h.renderTemplateWithFunc(w, content, filepath.Join(h.templatePath,"itemsLayout.tmpl"),filepath.Join(h.templatePath,"itemsContent.tmpl"),
+		filepath.Join(h.templatePath,"footer.tmpl"))
+*/
+	h.renderTemplateWithFunc(w, content, filepath.Join(h.templatePath,"layout.tmpl"),filepath.Join(h.templatePath,"LayoutContent.tmpl"),
+		filepath.Join(h.templatePath,"footer.tmpl"))
 
 /*
 	region :="us-west-2"
