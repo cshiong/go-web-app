@@ -1,0 +1,33 @@
+{{define "content"}}
+<script>
+function horray(input) {
+if (input != '') {
+alert("horray:" + input);
+}
+}
+</script>
+<span>
+<div>Tag: </div>
+<div>{{.Content.Tag}}</div>
+</span>
+<span>
+<div>Link Attribute:</div>
+<a href="//www.comcast.com">stuff</a>
+</span>
+<span>
+<div>Double Quote Attribute:</div>
+<div id="{{.Content.AttributeDouble}}">stuff</div>
+</span>
+<span>
+<div>Single Quote Attribute:</div>
+<div id='{{.Content.AttributeSingle}}'>stuff</div>
+</span>
+<span>
+<div>OnEvent Attribute (onclick):</div>
+<button onclick="horray({{.Content.AttributeOnEvent}});">Try it</button>
+</span>
+<span>
+<div>Src Attribute:</div>
+<iframe></iframe>
+</span>
+{{end}}

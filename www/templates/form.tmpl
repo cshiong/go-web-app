@@ -1,0 +1,29 @@
+{{define "content"}}
+ <script>
+window.addEventListener("load", function () {
+var submitter = document.getElementById("submit");
+submitter.addEventListener("click", function() {
+var form = document.getElementById("boop");
+form.submit();
+});
+});
+</script>
+<h3>{{.Title}}</h3>
+<form id="boop" action="/dynamo/formresult" method="post">
+    <label>Tag Injection:
+        <input name="tag" type="text" value=""></label><br>
+    <label>Script Injection:
+        <input name="script" type="text" value=""></label><br>
+    <label>Double Quote Attribute Injection:
+        <input name="attr_double" type="text" value=""></label><br>
+    <label>Single Quote Attribute Injection:
+        <input name="attr_single" type="text" value=""></label><br>
+    <label>OnEvent Attribute Injection:
+        <input name="attr_onevent" type="text" value=""></label><br>
+    <label>Source Attribute Injection:
+        <input name="attr_src" type="text" value=""></label><br>
+    <label>CSS/Style Injection:
+        <input name="style" type="text" value=""></label><br>
+    <button id="submit">Submit</button>
+</form>
+{{end}}

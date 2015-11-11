@@ -15,6 +15,7 @@ import (
 
 //	"code.comcast.com/VariousArtists/cronaas/core"
 	"fmt"
+	"net/url"
 )
 
 
@@ -234,4 +235,74 @@ func (h *MyHandler) GetTablesContents(w http.ResponseWriter, r *http.Request){
 
 	//result, err := svc.BatchGetItemPages( )
 
+}
+
+
+func (h *MyHandler) DisplayForm(w http.ResponseWriter, r *http.Request){
+	log.Println("in DisplayForm()")
+
+	content := Page{"display form","dummy"}
+	h.renderTemplate(w, content, filepath.Join(h.templatePath,"layout.tmpl"),filepath.Join(h.templatePath,"form.tmpl"))
+
+}
+
+// our user context input type
+type UserContextInput struct {
+	Tag              string
+	Script           string
+	Style            string
+	AttributeLink    string
+	AttributeDouble  string
+	AttributeSingle  string
+	AttributeOnEvent string
+	AttributeSrc     string
+}
+
+
+// parses the form values into our custom structure.
+func getFormValues(userInput *url.Values) (contextInput *UserContextInput, err error) {
+	log.Println("in getFormValues()")
+
+	// create a new UserContextInput struct to hold user input
+	contextInput = new(UserContextInput)
+
+	// iterate over the form values assigning each one to our struct.
+	for key, value := range *userInput {
+		switch key {
+		case "tag":
+			contextInput.Tag = value[0]
+		case "script":
+			contextInput.Script = value[0]
+		case "style":
+			contextInput.Style = value[0]
+		case "attr_double":
+			contextInput.AttributeDouble = value[0]
+		case "attr_single":
+			contextInput.AttributeSingle = value[0]
+		case "attr_onevent":
+			contextInput.AttributeOnEvent = value[0]
+		case "attr_src":
+			contextInput.AttributeSrc = value[0]
+		default:
+			return nil, fmt.Errorf("Unknown value passed in form!") // no funny business.
+		}
+	}
+	return contextInput, nil // yes, it is safe to return a pointer in Go
+}
+
+func (h *MyHandler) GetFormResult(w http.ResponseWriter, r *http.Request) {
+	log.Println("in GetFormResult()")
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, "Error parsing form values!", http.StatusInternalServerError)
+		return
+	}
+	// get the form values
+	userInput, err := getFormValues(&r.Form)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	content := Page{"display form", userInput}
+
+	h.renderTemplate(w, content, filepath.Join(h.templatePath, "layout.tmpl"), filepath.Join(h.templatePath, "formResult.tmpl"))
 }
