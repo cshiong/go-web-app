@@ -20,5 +20,6 @@ func main() {
 	http.HandleFunc("/dynamo/tables/",myHandler.GetTablesContents)
 	http.HandleFunc("/dynamo/form", myHandler.DisplayForm)
 	http.HandleFunc("/dynamo/formresult", myHandler.GetFormResult)
+	http.HandleFunc("/dynamo/chart", myHandler.DisplayChart)
 	http.ListenAndServe(":8080", nil)
 }

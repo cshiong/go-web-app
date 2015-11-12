@@ -14,7 +14,7 @@ The data that we feed to a template is called dot. We refer to it in our tags wi
 3. template with list of data.(slice, map etc)
 3. template contains another template.
 4. template with customer functions.
-5. template with script
+5. template with script.
 
 #Template Files
 

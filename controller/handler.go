@@ -72,8 +72,10 @@ func (h *MyHandler) LoadStaticPage1(w http.ResponseWriter, r *http.Request){
 			contentType = "text/css"
 		case strings.HasSuffix(filePath, ".html"):
 			contentType ="text/html"
+		case strings.HasSuffix(filePath,".mp4"):
+			contentType ="vedio/mp4"
 		default:
-			contentType ="test/plain"
+			contentType ="text/plain"
 		}
 		w.Header().Add("Content Type",contentType)
 		w.Write(data)
@@ -131,9 +133,12 @@ func (h *MyHandler)renderTemplateWithFunc(w http.ResponseWriter, p Page, tmpls .
 	var funcMap = template.FuncMap{
 		"even": even,
 	}
-	path :=strings.Split(tmpls[0],"/")
-	baseName := path[len(path)-1]
+
+	baseName := filepath.Base(tmpls[0])
+
 	fmt.Printf("baseName:%s\n",baseName)
+
+
     //New() needs to have the same basename as the "top level" template,but not the filePath just the name.
 	t := template.Must(template.New(baseName).Funcs(funcMap).ParseFiles(tmpls ...))
 
@@ -237,7 +242,9 @@ func (h *MyHandler) GetTablesContents(w http.ResponseWriter, r *http.Request){
 
 }
 
-
+/*
+using the same layout.tmpl, but pass a different content template file
+ */
 func (h *MyHandler) DisplayForm(w http.ResponseWriter, r *http.Request){
 	log.Println("in DisplayForm()")
 
@@ -305,4 +312,13 @@ func (h *MyHandler) GetFormResult(w http.ResponseWriter, r *http.Request) {
 	content := Page{"display form", userInput}
 
 	h.renderTemplate(w, content, filepath.Join(h.templatePath, "layout.tmpl"), filepath.Join(h.templatePath, "formResult.tmpl"))
+}
+
+
+func (h *MyHandler) DisplayChart(w http.ResponseWriter, r *http.Request) {
+	log.Println("in DisplayChart()")
+
+	content := Page{"display chart","pizza"}
+	h.renderTemplate(w, content, filepath.Join(h.templatePath,"layout.tmpl"),filepath.Join(h.templatePath,"chart.tmpl"))
+
 }
