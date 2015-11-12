@@ -38,4 +38,15 @@ The data that we feed to a template is called dot. We refer to it in our tags wi
    {{end}}
   `````
   
-  
+3. layout.tmpl
+ as a mail layout which take template "content" as content for display in the main div.
+ 
+
+4.layoutContent.tmpl, form.tmpl, formresult.tmpl,chart.tmpl
+All kinds contents can be passed to the layout.tmpl to display different contents.
+form.tmpl and formresult.tmpl also show how the script works in template
+
+
+5. itemsLayout.tmpl and itemsContent.tmpl 
+Used to show how customer function works on template.
+
