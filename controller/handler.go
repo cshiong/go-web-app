@@ -22,7 +22,7 @@ import (
 
 type MyHandler struct {
 	templatePath string
-	staticDir string
+	publicDir string
 }
 
 type Page struct{
@@ -42,7 +42,7 @@ func NewMyHandler() *MyHandler{
 	cwd, _ := os.Getwd()
 	var h MyHandler
 	h.templatePath =filepath.Join(cwd,"/www/templates/")
-	h.staticDir ="www"
+	h.publicDir ="www"
 	return &h
 }
 
@@ -57,10 +57,10 @@ func (h *MyHandler) LoadStaticPage1(w http.ResponseWriter, r *http.Request){
 	log.Println("in LoadStaticPage1()")
 	path := r.URL.Path[1:]
 	var filePath string
-	if strings.Contains(path,"www") {
+	if strings.Contains(path,h.publicDir) {
 		filePath = path
 	}else{
-		filePath = filepath.Join("www", path)
+		filePath = filepath.Join(h.publicDir, path)
 	}
 	//only allow go to www folder.
 	log.Printf("url path:%s\n",filePath)
@@ -91,9 +91,11 @@ load static pages using fileServer
  */
 func (h *MyHandler) LoadStaticPage(w http.ResponseWriter, r *http.Request){
 	log.Println("in LoadStaticPage()")
-	fs := http.FileServer(http.Dir(h.staticDir))
 
-	http.Handle("/v1/", http.StripPrefix("/www/", fs))
+	// FileServer does almost 1:1 mapping of an HTTP prefix with a filesystem.but ServerFile is file mapping
+	fs := http.FileServer(http.Dir("v1"))
+
+	http.Handle("/v1/", http.StripPrefix("/v1/", fs))
 
 
 }
@@ -188,8 +190,8 @@ func (h *MyHandler) GetTablesContents(w http.ResponseWriter, r *http.Request){
 	fmt.Printf("jobs:%v\n",jobs)
 
 	/*h.renderTemplateWithFunc(w, content, filepath.Join(h.templatePath,"itemsLayout.tmpl"),filepath.Join(h.templatePath,"itemsContent.tmpl"),
-		filepath.Join(h.templatePath,"footer.tmpl"))
-*/
+		filepath.Join(h.templatePath,"footer.tmpl"))*/
+
 	h.renderTemplateWithFunc(w, content, filepath.Join(h.templatePath,"layout.tmpl"),filepath.Join(h.templatePath,"LayoutContent.tmpl"),
 		filepath.Join(h.templatePath,"footer.tmpl"))
 

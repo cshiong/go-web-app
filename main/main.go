@@ -15,11 +15,13 @@ func main() {
 	//load static files
 
     http.HandleFunc("/",myHandler.LoadStaticPage1)
-	//http.HandleFunc("/", myHandler.LoadHomePage)
+	//http.HandleFunc("/", myHandler.LoadStaticPage)
 	http.HandleFunc("/dynamo/tables", myHandler.GetTables)
 	http.HandleFunc("/dynamo/tables/",myHandler.GetTablesContents)
 	http.HandleFunc("/dynamo/form", myHandler.DisplayForm)
 	http.HandleFunc("/dynamo/formresult", myHandler.GetFormResult)
 	http.HandleFunc("/dynamo/chart", myHandler.DisplayChart)
+
+
 	http.ListenAndServe(":8080", nil)
 }
