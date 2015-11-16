@@ -57,6 +57,7 @@ func (h *MyHandler) LoadStaticPage1(w http.ResponseWriter, r *http.Request){
 	log.Println("in LoadStaticPage1()")
 	path := r.URL.Path[1:]
 	var filePath string
+	//limit the file access only on www folder.
 	if strings.Contains(path,h.publicDir) {
 		filePath = path
 	}else{
